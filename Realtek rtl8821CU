@@ -53,4 +53,4 @@ else
 fi
 
 # After the first reboot, the script should be run again with the argument "second_run"
-# e.g. 
+# e.g. sudo bash install_realtek_rtl8821CU.sh second_run
