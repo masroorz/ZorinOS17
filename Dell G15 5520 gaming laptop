@@ -1,6 +1,6 @@
 # Note: The code below is for the NVIDIA GeForce RTX 3060 graphics card, which is commonly found in the Dell G15 5520. If you have a different graphics card, you may need to install a different driver version.
 # This script adds the NVIDIA PPA, installs the NVIDIA driver, reboots the system, checks for the driver installation, and prompts the user about using Steam. If the user confirms, it runs nvidia-xconfig
-
+# save the code below in a file called nvidia_driver_installation.sh, then Execute the script with superuser privileges, e.g sudo bash nvidia_driver_installation.sh
 
 #!/bin/bash
 
