@@ -8,14 +8,27 @@
 
 #!/bin/bash
 
+# Function to add the necessary repository for RTL88XXAU
+add_repository() {
+    echo "Adding the repository for RTL88XXAU drivers..."
+    sudo add-apt-repository -y ppa:aircrack-ng/rtl8812au
+    echo "Updating package list after adding the repository..."
+    sudo apt update
+}
+
 # Function to install the necessary drivers
 install_drivers() {
-    echo "Updating package list..."
-    sudo apt update
-    echo "Installing Realtek RTL88XXAU DKMS driver..."
-    sudo apt install -y realtek-rtl88xxau-dkms
-    echo "Installation complete. The system will now reboot."
-    sudo reboot
+    echo "Checking for RTL88XXAU driver..."
+    if ! dpkg -l | grep -q realtek-rtl88xxau-dkms; then
+        echo "RTL88XXAU driver not found. Attempting to install..."
+        add_repository
+        echo "Installing Realtek RTL88XXAU DKMS driver..."
+        sudo apt install -y realtek-rtl88xxau-dkms
+        echo "Installation complete. The system will now reboot."
+        sudo reboot
+    else
+        echo "RTL88XXAU driver is already installed."
+    fi
 }
 
 # Function to check Wi-Fi adapter status
@@ -48,10 +61,12 @@ check_wifi_adapter_after_second_reboot() {
 # Main script logic
 if [ "$1" == "first_run" ]; then
     install_drivers
+    check_wifi_adapter
 elif [ "$1" == "second_run" ]; then
     check_wifi_adapter_after_second_reboot
 else
     # First run of the script
     install_drivers
+    check_wifi_adapter
 fi
 
